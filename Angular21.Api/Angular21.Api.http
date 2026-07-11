@@ -1,0 +1,6 @@
+@Angular21.Api_HostAddress = http://localhost:5251
+
+GET {{Angular21.Api_HostAddress}}/swagger/
+Accept: application/json
+
+###
