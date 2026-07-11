@@ -1,8 +1,10 @@
 import {
+  getDOM,
+  httpResource
+} from "./chunk-WLPBZTAM.js";
+import {
   ApplicationRef,
   ChangeDetectorRef,
-  CommonModule,
-  Component,
   DestroyRef,
   Directive,
   ElementRef,
@@ -13,7 +15,6 @@ import {
   Injector,
   Input,
   NgModule,
-  NgTemplateOutlet,
   Optional,
   Output,
   Renderer2,
@@ -27,134 +28,33 @@ import {
   __spreadProps,
   __spreadValues,
   afterNextRender,
-  assertInInjectionContext,
-  assertNotInReactiveContext,
   booleanAttribute,
   computed,
-  debounceTime,
   effect,
   forkJoin,
   forwardRef,
   from,
-  getDOM,
-  httpResource,
   inject,
   isPromise,
   isSubscribable,
   map,
-  model,
   setClassMetadata,
   signal,
-  startWith,
   untracked,
-  ɵsetClassDebugInfo,
   ɵɵControlFeature,
   ɵɵInheritDefinitionFeature,
   ɵɵNgOnChangesFeature,
   ɵɵProvidersFeature,
-  ɵɵadvance,
   ɵɵattribute,
   ɵɵclassProp,
-  ɵɵcontrol,
-  ɵɵcontrolCreate,
-  ɵɵdefineComponent,
   ɵɵdefineDirective,
   ɵɵdefineInjector,
   ɵɵdefineNgModule,
   ɵɵdefineService,
   ɵɵdirectiveInject,
-  ɵɵelement,
-  ɵɵelementContainer,
-  ɵɵelementEnd,
-  ɵɵelementStart,
-  ɵɵgetCurrentView,
   ɵɵgetInheritedFactory,
-  ɵɵlistener,
-  ɵɵnextContext,
-  ɵɵproperty,
-  ɵɵreference,
-  ɵɵrepeater,
-  ɵɵrepeaterCreate,
-  ɵɵresetView,
-  ɵɵrestoreView,
-  ɵɵtemplate,
-  ɵɵtemplateRefExtractor,
-  ɵɵtext,
-  ɵɵtextInterpolate
-} from "./chunk-J5LDR6XM.js";
-
-// node_modules/@angular/core/fesm2022/rxjs-interop.mjs
-/**
- * @license Angular v22.0.6
- * (c) 2010-2026 Google LLC. https://angular.dev/
- * License: MIT
- */
-function toSignal(source, options) {
-  typeof ngDevMode !== "undefined" && ngDevMode && assertNotInReactiveContext(toSignal, "Invoking `toSignal` causes new subscriptions every time. Consider moving `toSignal` outside of the reactive context and read the signal value where needed.");
-  const requiresCleanup = !options?.manualCleanup;
-  if (ngDevMode && requiresCleanup && !options?.injector) {
-    assertInInjectionContext(toSignal);
-  }
-  const cleanupRef = requiresCleanup ? options?.injector?.get(DestroyRef) ?? inject(DestroyRef) : null;
-  const equal = makeToSignalEqual(options?.equal);
-  let state;
-  if (options?.requireSync) {
-    state = signal({
-      kind: 0
-    }, __spreadValues({
-      equal
-    }, ngDevMode ? createDebugNameObject(options?.debugName, "state") : void 0));
-  } else {
-    state = signal({
-      kind: 1,
-      value: options?.initialValue
-    }, __spreadValues({
-      equal
-    }, ngDevMode ? createDebugNameObject(options?.debugName, "state") : void 0));
-  }
-  let destroyUnregisterFn;
-  const sub = source.subscribe({
-    next: (value) => state.set({
-      kind: 1,
-      value
-    }),
-    error: (error) => {
-      state.set({
-        kind: 2,
-        error
-      });
-      destroyUnregisterFn?.();
-    },
-    complete: () => {
-      destroyUnregisterFn?.();
-    }
-  });
-  if (options?.requireSync && state().kind === 0) {
-    throw new RuntimeError(601, (typeof ngDevMode === "undefined" || ngDevMode) && "`toSignal()` called with `requireSync` but `Observable` did not emit synchronously.");
-  }
-  destroyUnregisterFn = cleanupRef?.onDestroy(sub.unsubscribe.bind(sub));
-  return computed(() => {
-    const current = state();
-    switch (current.kind) {
-      case 1:
-        return current.value;
-      case 2:
-        throw current.error;
-      case 0:
-        throw new RuntimeError(601, (typeof ngDevMode === "undefined" || ngDevMode) && "`toSignal()` called with `requireSync` but `Observable` did not emit synchronously.");
-    }
-  }, __spreadValues({
-    equal: options?.equal
-  }, ngDevMode ? createDebugNameObject(options?.debugName, "source") : void 0));
-}
-function makeToSignalEqual(userEquality = Object.is) {
-  return (a, b) => a.kind === 1 && b.kind === 1 && userEquality(a.value, b.value);
-}
-function createDebugNameObject(toSignalDebugName, internalSignalDebugName) {
-  return {
-    debugName: `toSignal${toSignalDebugName ? "#" + toSignalDebugName : ""}.${internalSignalDebugName}`
-  };
-}
+  ɵɵlistener
+} from "./chunk-7MU4JTXM.js";
 
 // node_modules/@angular/forms/fesm2022/forms.mjs
 /**
@@ -5138,23 +5038,43 @@ var ReactiveFormsModule = class _ReactiveFormsModule {
 
 // src/app/pages/dashboard/services/dashboard-service.ts
 var DashboardService = class _DashboardService {
-  getSearchCriteria = () => httpResource(() => "api/get-session-id", {
-    parse(value) {
+  searchCriteria = signal(
+    {
+      firstName: null,
+      lastName: null
+    },
+    ...ngDevMode ? [{ debugName: "searchCriteria" }] : (
+      /* istanbul ignore next */
+      []
+    )
+  );
+  getSearchCriteria = httpResource(() => "api/get-session-id", __spreadProps(__spreadValues({}, ngDevMode ? { debugName: "getSearchCriteria" } : (
+    /* istanbul ignore next */
+    {}
+  )), { parse(value) {
+    return {
+      firstName: "John",
+      lastName: null
+    };
+  } }));
+  personSearchResult = httpResource(
+    () => {
+      const filter = this.searchCriteria();
       return {
-        firstName: "John",
-        lastName: null
+        url: "api/find-persons",
+        body: filter,
+        method: "POST"
       };
-    }
-  });
-  filteredPersonListResult = (searchCriteria) => httpResource(() => ({
-    url: `api/find-persons`,
-    method: "POST",
-    body: searchCriteria(),
-    parse: (response) => {
-      console.log("Response from API:", response);
-      return response.personList;
-    }
-  }));
+    },
+    ...ngDevMode ? [{ debugName: "personSearchResult" }] : (
+      /* istanbul ignore next */
+      []
+    )
+  );
+  personDetails = (personId) => httpResource(() => `api/get-person/${personId}`);
+  search(criteria) {
+    this.searchCriteria.set(criteria);
+  }
   createSearchCriteriaForm(data) {
     return new FormGroup({
       firstName: new FormControl(data.firstName || null),
@@ -5172,171 +5092,14 @@ var DashboardService = class _DashboardService {
   }], null, null);
 })();
 
-// src/app/pages/dashboard/components/dashboard-component/dashboard-component.ts
-var _forTrack0 = ($index, $item) => $item.id;
-function DashboardComponent_ng_container_4_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementContainer(0);
-  }
-}
-function DashboardComponent_For_17_Template(rf, ctx) {
-  if (rf & 1) {
-    \u0275\u0275elementStart(0, "tr")(1, "td");
-    \u0275\u0275text(2);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "td");
-    \u0275\u0275text(4);
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "td");
-    \u0275\u0275text(6);
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const person_r1 = ctx.$implicit;
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(person_r1.firstName);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(person_r1.lastName);
-    \u0275\u0275advance(2);
-    \u0275\u0275textInterpolate(person_r1.city);
-  }
-}
-function DashboardComponent_ng_template_18_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r2 = \u0275\u0275getCurrentView();
-    \u0275\u0275elementStart(0, "form", 6);
-    \u0275\u0275listener("ngSubmit", function DashboardComponent_ng_template_18_Template_form_ngSubmit_0_listener() {
-      \u0275\u0275restoreView(_r2);
-      const ctx_r2 = \u0275\u0275nextContext();
-      return \u0275\u0275resetView(ctx_r2.onSearch());
-    });
-    \u0275\u0275elementStart(1, "div", 7)(2, "label", 8);
-    \u0275\u0275text(3, "First Name");
-    \u0275\u0275elementEnd();
-    \u0275\u0275element(4, "input", 9);
-    \u0275\u0275controlCreate();
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(5, "div", 7)(6, "label", 10);
-    \u0275\u0275text(7, "Last Name");
-    \u0275\u0275elementEnd();
-    \u0275\u0275element(8, "input", 11);
-    \u0275\u0275controlCreate();
-    \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "button", 12);
-    \u0275\u0275text(10, "Search");
-    \u0275\u0275elementEnd()();
-  }
-  if (rf & 2) {
-    const ctx_r2 = \u0275\u0275nextContext();
-    \u0275\u0275property("formGroup", ctx_r2.searchCriteriaForm);
-    \u0275\u0275advance(4);
-    \u0275\u0275control();
-    \u0275\u0275advance(4);
-    \u0275\u0275control();
-  }
-}
-function DashboardComponent_ng_template_20_Template(rf, ctx) {
-}
-var DashboardComponent = class _DashboardComponent {
-  initialized = signal(
-    false,
-    ...ngDevMode ? [{ debugName: "initialized" }] : (
-      /* istanbul ignore next */
-      []
-    )
-  );
-  dashboardService = inject(DashboardService);
-  getSearchCriteria = this.dashboardService.getSearchCriteria();
-  searchCriteria = model(
-    {
-      firstName: null,
-      lastName: null
-    },
-    ...ngDevMode ? [{ debugName: "searchCriteria" }] : (
-      /* istanbul ignore next */
-      []
-    )
-  );
-  searchCriteriaForm = this.dashboardService.createSearchCriteriaForm(this.searchCriteria());
-  formValue = toSignal(this.searchCriteriaForm.valueChanges.pipe(startWith(this.searchCriteriaForm.getRawValue()), debounceTime(300)), {
-    initialValue: this.searchCriteriaForm.getRawValue()
-  });
-  personSearchResult = httpResource(
-    () => {
-      if (!this.initialized()) {
-        return void 0;
-      }
-      const filter = this.formValue();
-      return {
-        url: "api/find-persons",
-        body: filter,
-        method: "POST"
-      };
-    },
-    ...ngDevMode ? [{ debugName: "personSearchResult" }] : (
-      /* istanbul ignore next */
-      []
-    )
-  );
-  filteredPersonListResult = this.dashboardService.filteredPersonListResult(this.searchCriteria);
-  data = this.filteredPersonListResult.value;
-  searchCriteriaValue = this.getSearchCriteria;
-  constructor() {
-    effect(() => {
-      const filter = this.getSearchCriteria.value();
-      if (!filter || this.initialized()) {
-        return;
-      }
-      this.searchCriteriaForm = this.dashboardService.createSearchCriteriaForm(filter);
-    });
-  }
-  onSearch() {
-  }
-  static \u0275fac = function DashboardComponent_Factory(__ngFactoryType__) {
-    return new (__ngFactoryType__ || _DashboardComponent)();
-  };
-  static \u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _DashboardComponent, selectors: [["app-dashboard-component"]], inputs: { searchCriteria: [1, "searchCriteria"] }, outputs: { searchCriteria: "searchCriteriaChange" }, decls: 22, vars: 1, consts: [["searchFormTemplate", ""], ["resultsTemplate", ""], [1, "container"], [1, "d-flex", "flex-column"], [4, "ngTemplateOutlet"], [1, "table"], [3, "ngSubmit", "formGroup"], [1, "mb-3"], ["for", "firstName", 1, "form-label"], ["type", "text", "id", "firstName", "formControlName", "firstName", 1, "form-control"], ["for", "lastName", 1, "form-label"], ["type", "text", "id", "lastName", "formControlName", "lastName", 1, "form-control"], ["type", "submit", 1, "btn", "btn-primary"]], template: function DashboardComponent_Template(rf, ctx) {
-    if (rf & 1) {
-      \u0275\u0275elementStart(0, "div", 2)(1, "h1");
-      \u0275\u0275text(2, "Dashboard");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(3, "div", 3);
-      \u0275\u0275template(4, DashboardComponent_ng_container_4_Template, 1, 0, "ng-container", 4);
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(5, "div", 3)(6, "table", 5)(7, "thead")(8, "tr")(9, "th");
-      \u0275\u0275text(10, "First Name");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(11, "th");
-      \u0275\u0275text(12, "Last Name");
-      \u0275\u0275elementEnd();
-      \u0275\u0275elementStart(13, "th");
-      \u0275\u0275text(14, "Email");
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275elementStart(15, "tbody");
-      \u0275\u0275repeaterCreate(16, DashboardComponent_For_17_Template, 7, 3, "tr", null, _forTrack0);
-      \u0275\u0275elementEnd()()();
-      \u0275\u0275template(18, DashboardComponent_ng_template_18_Template, 11, 1, "ng-template", null, 0, \u0275\u0275templateRefExtractor)(20, DashboardComponent_ng_template_20_Template, 0, 0, "ng-template", null, 1, \u0275\u0275templateRefExtractor);
-      \u0275\u0275elementEnd();
-    }
-    if (rf & 2) {
-      const searchFormTemplate_r4 = \u0275\u0275reference(19);
-      \u0275\u0275advance(4);
-      \u0275\u0275property("ngTemplateOutlet", searchFormTemplate_r4);
-      \u0275\u0275advance(12);
-      \u0275\u0275repeater(ctx.data()?.personList);
-    }
-  }, dependencies: [ReactiveFormsModule, \u0275NgNoValidate, DefaultValueAccessor, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, CommonModule, NgTemplateOutlet], encapsulation: 2 });
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(DashboardComponent, [{
-    type: Component,
-    args: [{ selector: "app-dashboard-component", imports: [ReactiveFormsModule, CommonModule], template: '<div class="container">\n    <h1>Dashboard</h1>\n    <div class="d-flex flex-column">\n        <ng-container *ngTemplateOutlet="searchFormTemplate"></ng-container>\n    </div>\n    <div class="d-flex flex-column">\n                <table class="table">\n            <thead>\n                <tr>\n                    <th>First Name</th>\n                    <th>Last Name</th>\n                    <th>Email</th>\n                </tr>\n            </thead>\n            <tbody>\n                @for (person of data()?.personList; track person.id) {\n                <tr>\n                    <td>{{ person.firstName }}</td>\n                    <td>{{ person.lastName }}</td>\n                    <td>{{ person.city }}</td>\n                </tr>\n                }\n            </tbody>\n        </table>\n    </div>\n\n    <ng-template #searchFormTemplate>\n        <form [formGroup]="searchCriteriaForm" (ngSubmit)="onSearch()">\n            <div class="mb-3">\n                <label for="firstName" class="form-label">First Name</label>\n                <input type="text" id="firstName" formControlName="firstName" class="form-control">\n            </div>\n            <div class="mb-3">\n                <label for="lastName" class="form-label">Last Name</label>\n                <input type="text" id="lastName" formControlName="lastName" class="form-control">\n            </div>\n            <button type="submit" class="btn btn-primary">Search</button>\n        </form>\n    </ng-template>\n\n    <ng-template #resultsTemplate let-personListResult="personListResult">\n\n    </ng-template>\n</div>' }]
-  }], () => [], { searchCriteria: [{ type: Input, args: [{ isSignal: true, alias: "searchCriteria", required: false }] }, { type: Output, args: ["searchCriteriaChange"] }] });
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(DashboardComponent, { className: "DashboardComponent", filePath: "src/app/pages/dashboard/components/dashboard-component/dashboard-component.ts", lineNumber: 16 });
-})();
 export {
-  DashboardComponent as default
+  DefaultValueAccessor,
+  NgControlStatus,
+  NgControlStatusGroup,
+  ɵNgNoValidate,
+  FormControlName,
+  FormGroupDirective,
+  ReactiveFormsModule,
+  DashboardService
 };
-//# sourceMappingURL=chunk-JIRCMZMC.js.map
+//# sourceMappingURL=chunk-XN5AIXOW.js.map

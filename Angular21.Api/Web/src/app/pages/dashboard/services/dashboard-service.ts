@@ -29,6 +29,7 @@ export class DashboardService {
         };
     });
 
+    personDetails = (personId: Signal<number | undefined>) => httpResource<Person>(()=>`api/get-person/${personId}`);
 
     search(criteria: SearchCriteria) {
         this.searchCriteria.set(criteria);

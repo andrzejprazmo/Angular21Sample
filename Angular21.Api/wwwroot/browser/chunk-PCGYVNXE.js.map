@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/pages/dashboard/components/edit-component/edit-component.ts", "src/app/pages/dashboard/components/edit-component/edit-component.html"],
+  "sourcesContent": ["import { Component } from '@angular/core';\n\n@Component({\n  selector: 'app-edit-component',\n  imports: [],\n  templateUrl: './edit-component.html',\n  styleUrl: './edit-component.css',\n})\nexport default class EditComponent {}\n", "<p>edit-component works!</p>\n"],
+  "mappings": ";;;;;;;;;;;AAQA,IAAqB,gBAArB,MAAqB,eAAa;;qCAAb,gBAAa;EAAA;yEAAb,gBAAa,WAAA,CAAA,CAAA,oBAAA,CAAA,GAAA,OAAA,GAAA,MAAA,GAAA,UAAA,SAAA,uBAAA,IAAA,KAAA;AAAA,QAAA,KAAA,GAAA;ACRlC,MAAA,4BAAA,GAAA,GAAA;AAAG,MAAA,iBAAA,GAAA,uBAAA;AAAqB,MAAA,0BAAA;;;;;sEDQH,eAAa,CAAA;UANjC;uBACW,sBAAoB,SACrB,CAAA,GAAE,UAAA,iCAAA,CAAA;;;;6EAIQ,eAAa,EAAA,WAAA,iBAAA,UAAA,uEAAA,YAAA,EAAA,CAAA;AAAA,GAAA;",
+  "names": []
+}

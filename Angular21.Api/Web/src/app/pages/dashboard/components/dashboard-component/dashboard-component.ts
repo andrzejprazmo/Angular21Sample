@@ -3,13 +3,14 @@ import { httpResource } from '@angular/common/http';
 import { Component, effect, inject, input, model, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { DashboardService } from '@dashboard/services/dashboard-service';
 import { Person, PersonSearchResult, SearchCriteria, SearchCriteriaForm } from '@dashboard/types/dashboard.types';
 import { debounceTime, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-component',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './dashboard-component.html',
   styleUrl: './dashboard-component.css',
 })
