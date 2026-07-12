@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { httpResource } from '@angular/common/http';
-import { Component, effect, input, model, signal } from '@angular/core';
-import { form, FormField } from '@angular/forms/signals';
+import { ChangeDetectionStrategy, Component, effect, input, model, signal } from '@angular/core';
+import { email, form, FormField, required } from '@angular/forms/signals';
 import { Person } from '@dashboard/types/dashboard.types';
 
 @Component({
@@ -20,14 +20,14 @@ export default class EditComponent {
     },
   });
 
-  readonly person = signal<Person>({
+  person = signal<Person>({
     firstName: '',
     lastName: '',
     id: 0,
     city: '',
   });
 
-  readonly editForm = form(this.person);
+  editForm = form(this.person);
 
   constructor() {
     effect(() => {
@@ -45,8 +45,16 @@ export default class EditComponent {
     })
   }
 
-  onSubmit() {
+  onSubmit(event: SubmitEvent) {
+    event.preventDefault();
+    if (this.editForm().invalid()) {
+      this.editForm().markAsTouched();
+      return;
+    }
+
+
     const data = this.person();
     console.log(data);
   }
 }
+

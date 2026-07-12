@@ -20,3 +20,13 @@ export interface Person {
 export interface PersonSearchResult {
     personList: Person[];
 }
+
+export declare type CreatePersonForm = FormGroup<{
+    firstName: FormControl<string | null>;
+    lastName: FormControl<string | null>;
+}>;
+
+export class CreatePersonModel {
+    firstName: string = 'Adam';
+    lastName: string = 'Kowalski';
+}
