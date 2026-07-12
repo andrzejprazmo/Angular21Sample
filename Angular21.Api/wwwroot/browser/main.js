@@ -3,7 +3,7 @@ import {
   bootstrapApplication,
   provideRouter,
   withComponentInputBinding
-} from "./chunk-WLPBZTAM.js";
+} from "./chunk-JX5ZCBET.js";
 import {
   Component,
   provideBrowserGlobalErrorListeners,
@@ -12,14 +12,14 @@ import {
   ɵsetClassDebugInfo,
   ɵɵdefineComponent,
   ɵɵelement
-} from "./chunk-7MU4JTXM.js";
+} from "./chunk-N4FVIB4G.js";
 
 // src/app/app.routes.ts
 var routes = [
   { path: "", redirectTo: "dashboard", pathMatch: "full" },
-  { path: "dashboard", loadComponent: () => import("./chunk-RYEQQCLN.js") },
-  { path: "person/details/:personId", loadComponent: () => import("./chunk-S25VPYZS.js") },
-  { path: "person/edit/:personId", loadComponent: () => import("./chunk-PCGYVNXE.js") }
+  { path: "dashboard", loadComponent: () => import("./chunk-YYBCLWXA.js") },
+  { path: "person/details/:personId", loadComponent: () => import("./chunk-ZZNLZ6SG.js") },
+  { path: "person/edit/:personId", loadComponent: () => import("./chunk-524EDR5G.js") }
 ];
 
 // src/app/app.config.ts

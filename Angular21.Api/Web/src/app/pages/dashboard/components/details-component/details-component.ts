@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import { Component, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DashboardService } from '@dashboard/services/dashboard-service';
 import { Person } from '@dashboard/types/dashboard.types';
 import { map } from 'rxjs';
 
 @Component({
   selector: 'app-details-component',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './details-component.html',
   styleUrl: './details-component.css',
 })

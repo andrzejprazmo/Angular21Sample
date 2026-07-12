@@ -1,1 +1,19 @@
-<p>edit-component works!</p>
+<div class="card">
+    <div class="card-header">Edycja</div>
+    <div class="card-body">
+        <form>
+            <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" id="firstName" [formField]="editForm?.firstName" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" id="lastName" [formField]="editForm?.lastName" class="form-control">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary" type="button" (click)="onSubmit()">Zapisz</button>
+            </div>
+
+        </form>
+    </div>
+</div>

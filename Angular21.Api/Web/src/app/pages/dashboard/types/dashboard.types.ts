@@ -11,11 +11,10 @@ export interface SearchCriteria {
 }
 
 export interface Person {
-    id: number | null;
-    firstName: string | null;
-    lastName: string | null;
-    birthDate: Date | null;
-    city: string | null;
+    id: number;
+    firstName: string;
+    lastName: string;
+    city: string;
 }
 
 export interface PersonSearchResult {

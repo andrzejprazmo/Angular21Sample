@@ -2,7 +2,8 @@
     <h1>Details</h1>
     <div class="card">
         <div class="card-body">
-            <ng-container [ngTemplateOutlet]="personDetailsTemplate" [ngTemplateOutletContext]="{ $implicit: personDetails.value() }"></ng-container>
+            <ng-container [ngTemplateOutlet]="personDetailsTemplate"
+                [ngTemplateOutletContext]="{ $implicit: personDetails.value() }"></ng-container>
         </div>
     </div>
 </div>
@@ -10,5 +11,5 @@
 <ng-template #personDetailsTemplate let-details>
     <div><em>First name:</em> <strong>{{ details.firstName }}</strong></div>
     <div><em>Last name:</em> <strong>{{ details.lastName }}</strong></div>
-
+    <div><a [routerLink]="['/person/edit', details.id]">Edycja</a></div>
 </ng-template>
