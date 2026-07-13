@@ -28,7 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+// TEST
 app.MapGet("/api/get-person-list", PersonEndpoints.GetAllPersons);
 app.MapGet("/api/get-person/{id}", PersonEndpoints.GetPerson);
 app.MapGet("/api/get-session-id", PersonEndpoints.GetSessionId);
